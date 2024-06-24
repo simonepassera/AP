@@ -11,30 +11,35 @@ import java.io.Serializable;
  * @author Simone Passera
  */
 public class EightController extends  javax.swing.JLabel implements Serializable, PropertyChangeListener, VetoableChangeListener {
-    private int holePosition = 9;
+    private int holePosition;
     
     public EightController() {}
 
     @Override
     public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
-        if (pce.getPropertyName().equals("setHole")) {
-            Integer[] tileInfo = (Integer[]) pce.getNewValue();
-            int tilePosition = tileInfo[0];
-            int oldLabel = tileInfo[1];
+        switch(pce.getPropertyName()) {
+            case "setHole" -> {
+                Integer[] tileInfo = (Integer[]) pce.getNewValue();
+                int tilePosition = tileInfo[0];
+                int oldLabel = tileInfo[1];
 
-            if (isValidMove(tilePosition)) {
-                setText("OK");
-                firePropertyChange("holeMoved",  null, oldLabel);
-                holePosition = tilePosition;
-            } else {
-                setText("KO");
-                throw new PropertyVetoException("Invalid Move", pce);
+                if (isValidMove(tilePosition)) {
+                    // Send the old label to the current hole
+                    firePropertyChange("holeMoved",  null, oldLabel);
+                    setText("OK");
+                    holePosition = tilePosition;
+                } else {
+                    setText("KO");
+                    throw new PropertyVetoException("Invalid Move", pce);
+                } 
             }
-        } else if (pce.getPropertyName().equals("flipRequest")) {
-            if (holePosition != 9)
-                throw new PropertyVetoException("Invalid Flip", pce);
-            else
-                setText("FLIP");
+            case "flipRequest" -> {
+                if (holePosition == 9)
+                    setText("FLIP");
+                else
+                    throw new PropertyVetoException("Invalid Flip", pce);
+            }
+            default -> {}
         }
     }
 

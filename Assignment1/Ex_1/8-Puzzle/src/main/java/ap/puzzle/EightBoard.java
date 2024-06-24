@@ -2,6 +2,7 @@ package ap.puzzle;
 
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,18 +11,15 @@ import java.util.Collections;
  *
  * @author Simone Passera
  */
-public class EightBoard extends javax.swing.JFrame {
-    private final ArrayList<EightTile> tiles;
-    private final VetoableChangeSupport vcs;
+public class EightBoard extends javax.swing.JFrame implements Serializable {
+    private final ArrayList<EightTile> tiles = new ArrayList<>();
+    private final VetoableChangeSupport vcs = new VetoableChangeSupport(this);
 
     /**
      * Creates new form EightBoard
      */
     public EightBoard() {
         initComponents();
-        
-        tiles = new ArrayList<>();
-        vcs = new VetoableChangeSupport(this);
         
         tiles.add(eightTile1);
         tiles.add(eightTile2);
@@ -34,16 +32,26 @@ public class EightBoard extends javax.swing.JFrame {
         tiles.add(eightTile9);
         
         for (EightTile t : tiles) {
+            // Register EightController to all tiles for property "setHole" 
              t.addVetoableChangeListener(eightController);
-             eightController.addPropertyChangeListener(t);
-             addPropertyChangeListener(t);
+             // Register all tiles to EightController for property "holeMoved"
+             eightController.addPropertyChangeListener("holeMoved",t);
+             // Register all tiles to EightBoard for property "restartBoard"
+             addPropertyChangeListener("restartBoard",t);
         }
         
-        eightTile1.addPropertyChangeListener(eightTile2);
-        eightTile2.addPropertyChangeListener(eightTile1);
+        // Register tile in position 1 to EightBoard for property "flip"
+        addPropertyChangeListener("flip",eightTile1);
         
-        addPropertyChangeListener(eightController);
-        vcs.addVetoableChangeListener(eightController);
+        // Register tile in position 2 to tile in position 1 for property "setLabel"
+        eightTile1.addPropertyChangeListener("setLabel",eightTile2);
+        // Register tile in position 1 to tile in position 2 for property "setLabel"
+        eightTile2.addPropertyChangeListener("setLabel",eightTile1);
+        
+        // Register EightController to EightBoard for property "restartBoard"
+        addPropertyChangeListener("restartBoard",eightController);
+        // Register EightController to EightBoard for property "flipRequest"
+        vcs.addVetoableChangeListener("flipRequest",eightController);
     }
 
     /**
@@ -178,7 +186,9 @@ public class EightBoard extends javax.swing.JFrame {
 
     private void flipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flipActionPerformed
         try {
+            // Control is performed by the EightController
             vcs.fireVetoableChange("flipRequest", null, null);  
+            // Control passed, then sends the "flip" event to tile in position 1
             firePropertyChange("flip", null, null);
         } catch (PropertyVetoException ex) {}
     }//GEN-LAST:event_flipActionPerformed
@@ -224,6 +234,7 @@ public class EightBoard extends javax.swing.JFrame {
         Collections.shuffle(configuration);
         configuration.add(9);
         
+        // Send "restartBoard" event to EightController and the new configuration to all tiles
         firePropertyChange("restartBoard", null, configuration);
     }
 

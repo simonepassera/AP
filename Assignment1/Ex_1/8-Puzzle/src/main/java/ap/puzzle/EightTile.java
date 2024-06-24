@@ -33,6 +33,7 @@ public class EightTile extends javax.swing.JButton implements Serializable, Prop
     
     private void setHole() {        
         try {
+            // Send "setHole" event to EightController
             fireVetoableChange("setHole", null, new Integer[]{positionTile, labelTile});
             labelTile = 9;
             updateAppearance();
@@ -56,31 +57,39 @@ public class EightTile extends javax.swing.JButton implements Serializable, Prop
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        if (pce.getPropertyName().equals("restartBoard")) {
-            ArrayList<Integer> labels = (ArrayList<Integer>) pce.getNewValue();
-            labelTile = labels.get(positionTile - 1);
-            updateAppearance();
-        } else if (pce.getPropertyName().equals("holeMoved")) {
-            if (labelTile == 9) {
-                labelTile = (int) pce.getNewValue();
+        switch (pce.getPropertyName()) {
+            case "restartBoard" -> {
+                ArrayList<Integer> labels = (ArrayList<Integer>) pce.getNewValue();
+                labelTile = labels.get(positionTile - 1);
                 updateAppearance();
             }
-        } else if (pce.getPropertyName().equals("flip")) {
-            if (positionTile == 1) {      
-                firePropertyChange("setLabel", null, new Integer[]{2, labelTile});
+            case "holeMoved" -> {
+                if (labelTile == 9) {
+                    labelTile = (int) pce.getNewValue();
+                    updateAppearance();
+                }
             }
-        } else if (pce.getPropertyName().equals("setLabel")) {
-            Integer[] tileInfo = (Integer[]) pce.getNewValue();
-            int position =tileInfo[0];
-            int label =tileInfo[1];
-            
-            if (positionTile == position) {
-                if (positionTile != 1)
-                    firePropertyChange("setLabel", null, new Integer[]{1, labelTile});
+            case "flip" -> {
+                if (positionTile == 1) {
+                    // Send "setLabel" event to tile in position 2
+                    firePropertyChange("setLabel", null, new Integer[]{2, labelTile});
+                }
+            }
+            case "setLabel" -> {
+                Integer[] tileInfo = (Integer[]) pce.getNewValue();
+                int position =tileInfo[0];
+                int label =tileInfo[1];
                 
-                labelTile = label;
-                updateAppearance();
+                if (positionTile == position) {
+                    if (positionTile != 1)
+                        // Send "setLabel" event to tile in position 1
+                        firePropertyChange("setLabel", null, new Integer[]{1, labelTile});
+                    
+                    labelTile = label;
+                    updateAppearance();
+                }
             }
+            default -> {}
         }
     }
 }
