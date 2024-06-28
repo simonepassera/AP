@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Student>
+	<firstName type="String">Jane</firstName>
+	<surname type="String">Doe</surname>
+	<age type="int">42</age>
+</Student>
+<notXMLable />
+<Student>
+	<firstName type="String">Mario</firstName>
+	<surname type="String">Rossi</surname>
+	<age type="int">28</age>
+</Student>
+<Course>
+	<CourseName type="String">Advanced Programming</CourseName>
+	<code type="String">301AA</code>
+	<credits type="float">9.0</credits>
+</Course>
+<Student>
+	<firstName type="String">Luca</firstName>
+	<surname type="String">Verdi</surname>
+	<age type="int">35</age>
+</Student>

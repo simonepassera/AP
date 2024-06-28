@@ -1,13 +1,15 @@
+import ap.xml.XMLable;
 import ap.xml.XMLfield;
 
+@XMLable
 public class Course {
-    @XMLfield(type = "String", name = "Course title")
+    @XMLfield(type = "String", name = "CourseName")
     private String name;
 
     @XMLfield(type = "String")
     private String code;
 
-    @XMLfield(type = "int")
+    @XMLfield(type = "float")
     private float credits;
 
     public Course(String name, String code, float credits) {
