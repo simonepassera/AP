@@ -18,12 +18,17 @@ instance Eq a => Eq (MSet a) where
   (==) (MS l1) (MS l2) = maybe False null (foldl_maybe remove (Just l2) l1)
     where
       foldl_maybe _ acc [] = acc
-      foldl_maybe fn acc (x:xs) = fn acc x >>= \acc' -> foldl_maybe fn (Just acc') xs
+      foldl_maybe fn acc (x:xs) = do 
+        acc' <- fn acc x
+        foldl_maybe fn (Just acc') xs
 
       remove (Just []) _ = Nothing
       remove (Just ((x, mx) : xs)) (v, mv)
         | x == v && mx == mv = Just xs
-        | otherwise = remove (Just xs) (v, mv) >>= \xs' -> Just ((x, mx) : xs')
+        | x == v && mx /= mx = Nothing
+        | otherwise = do
+            xs' <- remove (Just xs) (v, mv)
+            Just ((x, mx) : xs')
       remove _ _ = Nothing
 
 -- Define the Foldable instance for MSet, allowing functions like foldr to operate on MSet.

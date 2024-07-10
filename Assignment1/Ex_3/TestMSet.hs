@@ -13,6 +13,7 @@ readMSet filePath = do
   return $ foldl' add empty $ map toCiao $ words contents
 
 -- Writes an MSet to a file in the format "<element> - <multiplicity>"
+writeMSet :: Show a => MSet a -> FilePath -> IO ()
 writeMSet (MS l) filePath = writeFile filePath (unlines $ map toString l)
   where
     toString (x, mx) = show x ++ " - " ++ show mx
