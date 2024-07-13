@@ -10,7 +10,7 @@ toCiao str = sort $ map toLower str
 readMSet :: FilePath -> IO (MSet String)
 readMSet filePath = do
   contents <- readFile filePath
-  return $ foldl' add empty $ map toCiao $ words contents
+  return $! foldl' add empty $ map toCiao $ words contents
 
 -- Writes an MSet to a file in the format "<element> - <multiplicity>"
 writeMSet :: Show a => MSet a -> FilePath -> IO ()
