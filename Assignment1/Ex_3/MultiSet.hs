@@ -1,13 +1,13 @@
 module MultiSet
-    ( MSet(..)
-    , empty
-    , add
-    , occs
-    , elems
-    , subeq
-    , union
-    , mapMSet
-    ) where
+  ( MSet(..)
+  , empty
+  , add
+  , occs
+  , elems
+  , subeq
+  , union
+  , mapMSet
+  ) where
 
 -- Define a data type MSet parameterized over type 'a', representing a multi-set with elements of type 'a' and their multiplicities.
 data MSet a = MS [(a, Int)]
