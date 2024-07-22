@@ -1,0 +1,58 @@
+[
+  {
+    "fun": "just_wait",
+    "args": [
+      [
+        20
+      ],
+      {}
+    ],
+    "n_threads": 1,
+    "seq_iter": 16,
+    "iter": 10,
+    "mean": 32.035307049499536,
+    "variance": 3.3890990262530993e-06
+  },
+  {
+    "fun": "just_wait",
+    "args": [
+      [
+        20
+      ],
+      {}
+    ],
+    "n_threads": 2,
+    "seq_iter": 8,
+    "iter": 10,
+    "mean": 16.017724956099848,
+    "variance": 2.5294722601415886e-06
+  },
+  {
+    "fun": "just_wait",
+    "args": [
+      [
+        20
+      ],
+      {}
+    ],
+    "n_threads": 4,
+    "seq_iter": 4,
+    "iter": 10,
+    "mean": 8.00946679380031,
+    "variance": 7.940007802910083e-07
+  },
+  {
+    "fun": "just_wait",
+    "args": [
+      [
+        20
+      ],
+      {}
+    ],
+    "n_threads": 8,
+    "seq_iter": 2,
+    "iter": 10,
+    "mean": 4.0050343634997265,
+    "variance": 3.294319168182109e-07
+  }
+]
