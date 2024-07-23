@@ -18,12 +18,13 @@ public class EightController extends  javax.swing.JLabel implements Serializable
     @Override
     public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
         switch(pce.getPropertyName()) {
-            case "setHole" -> {
+            case "setLabelTile" -> {
                 Integer[] tileInfo = (Integer[]) pce.getNewValue();
                 int tilePosition = tileInfo[0];
                 int oldLabel = tileInfo[1];
+                int newLabel = tileInfo[2];
 
-                if (isValidMove(tilePosition)) {
+                if (newLabel == 9 && isValidMove(tilePosition)) {
                     // Send the old label to the current hole
                     firePropertyChange("holeMoved",  null, oldLabel);
                     setText("OK");

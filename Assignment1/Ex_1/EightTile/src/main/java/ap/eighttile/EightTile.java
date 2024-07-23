@@ -19,7 +19,7 @@ public class EightTile extends javax.swing.JButton implements Serializable, Prop
     private final Color myRed = new Color(235, 77, 75);
     private final Color myGreen = new Color(46, 213, 115);
     private final Color myYellow = new Color(254, 211, 48);
-    private final Color myGray = new Color(121,121,121);
+    private final Color myGray = new Color(121, 121, 121);
     
     public EightTile() {}
     
@@ -27,15 +27,19 @@ public class EightTile extends javax.swing.JButton implements Serializable, Prop
         this.positionTile = position;
         
         addActionListener((ActionEvent event) -> {
-            setHole();
+            setLabelTile(9);
         });
     }
     
-    private void setHole() {        
+    public int getLabelTile() {
+        return labelTile;
+    }
+    
+    public void setLabelTile(int label) {        
         try {
-            // Send "setHole" event to EightController
-            fireVetoableChange("setHole", null, new Integer[]{positionTile, labelTile});
-            labelTile = 9;
+            // Send "setLabel" event to EightController
+            fireVetoableChange("setLabelTile", null, new Integer[]{positionTile, labelTile, label});
+            labelTile = label;
             updateAppearance();
         } catch (PropertyVetoException ex) {
             setBackground(myRed);
