@@ -31,6 +31,10 @@ public class EightTile extends javax.swing.JButton implements Serializable, Prop
         });
     }
     
+    public int getPositionTile() {
+        return positionTile;
+    }
+    
     public int getLabelTile() {
         return labelTile;
     }
