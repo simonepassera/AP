@@ -25,7 +25,7 @@ instance Eq a => Eq (MSet a) where
       remove (Just []) _ = Nothing
       remove (Just ((x, mx) : xs)) (v, mv)
         | x == v && mx == mv = Just xs
-        | x == v && mx /= mx = Nothing
+        | x == v && mx /= mv = Nothing
         | otherwise = do
             xs' <- remove (Just xs) (v, mv)
             Just ((x, mx) : xs')
